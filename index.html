@@ -19,7 +19,6 @@
         .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(191, 149, 63, 0.2); transition: 0.5s; }
         .logo-glow { border-radius: 50%; box-shadow: 0 0 20px rgba(191, 149, 63, 0.3); border: 1px solid #BF953F; }
         
-        /* Dropdown Style */
         .dropdown-content { display: none; position: absolute; right: 0; top: 60px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); min-width: 200px; border: 1px solid rgba(191, 149, 63, 0.3); border-radius: 15px; z-index: 100; overflow: hidden; }
         .dropdown-content.show { display: block; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -27,98 +26,82 @@
 </head>
 <body>
 
-    <!-- 1. LUXURY LOGIN PAGE -->
+    <!-- LOGIN PAGE -->
     <div id="login-page" class="h-screen flex flex-col items-center justify-center text-center p-6 bg-black">
-        <div class="max-w-md w-full p-10 rounded-[3rem] glass-card shadow-2xl">
-            <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" alt="XENON MART" class="w-40 h-40 mx-auto mb-8 logo-glow object-cover">
+        <div class="max-w-md w-full p-10 rounded-[3rem] glass-card">
+            <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-40 h-40 mx-auto mb-8 logo-glow object-cover">
             <h1 class="text-3xl font-sync font-bold mb-2 gold-gradient">XENON MART</h1>
             <p class="text-gray-500 tracking-[0.4em] text-[10px] mb-10 uppercase italic">Shop Smart • Live Better</p>
-            
-            <button id="login-btn" onclick="login()" class="w-full gold-bg text-black font-bold py-4 rounded-2xl shadow-xl hover:brightness-110 transition-all flex items-center justify-center gap-3">
-                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-5">
-                SIGN IN WITH GOOGLE
+            <button onclick="login()" class="w-full gold-bg text-black font-bold py-4 rounded-2xl shadow-xl hover:brightness-110 transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-xs">
+                Sign In With Google
             </button>
-            <p id="loading-txt" class="text-gold text-xs mt-4 hidden animate-pulse">Connecting to server...</p>
         </div>
     </div>
 
-    <!-- 2. MAIN WEBSITE -->
+    <!-- MAIN WEBSITE -->
     <div id="main-content" class="hidden">
         <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-black/90 backdrop-blur-lg border-b border-white/5">
             <div class="flex items-center gap-3">
                 <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-9 h-9 rounded-full object-cover border border-gold">
-                <span class="font-sync font-bold gold-gradient text-lg tracking-tighter">XENON MART</span>
+                <span class="font-sync font-bold gold-gradient text-lg">XENON MART</span>
             </div>
             
             <div class="relative flex items-center gap-4">
-                <button id="admin-btn" onclick="openAdmin()" class="hidden text-[9px] border border-gold text-gold px-3 py-1 rounded-full font-bold">ADMIN</button>
+                <button id="admin-btn" onclick="openAdmin()" class="hidden text-[9px] border border-gold text-gold px-3 py-1 rounded-full font-bold uppercase">Admin</button>
                 <img id="user-img" src="" class="w-9 h-9 rounded-full border border-gold/30">
-                
-                <!-- 3-Dot Menu Button -->
-                <button onclick="toggleMenu()" class="p-2 hover:bg-white/5 rounded-full transition-all">
+                <button onclick="toggleMenu()" class="p-2">
                     <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 </button>
 
-                <!-- Dropdown Menu -->
-                <div id="dropdown-menu" class="dropdown-content shadow-2xl">
-                    <div class="p-4 border-b border-white/5 bg-gold/10">
-                        <p class="text-[10px] text-gold font-sync font-bold">ACCOUNT SETTINGS</p>
-                    </div>
-                    <a href="https://instagram.com/xenonmart9" target="_blank" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 text-sm transition-all border-b border-white/5">
-                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" class="w-4">
-                        <span>Instagram</span>
-                    </a>
-                    <div class="px-4 py-3 text-[10px] text-gray-500 border-b border-white/5 uppercase tracking-widest">
-                        Version 1.0.2 (Beta)
-                    </div>
-                    <button onclick="logout()" class="w-full text-left px-4 py-3 text-red-500 hover:bg-red-500/10 text-sm font-bold transition-all">
-                        Logout Session
-                    </button>
+                <div id="dropdown-menu" class="dropdown-content">
+                    <a href="https://instagram.com/xenonmart9" target="_blank" class="block px-4 py-3 hover:bg-white/5 text-sm border-b border-white/5 font-semibold text-gold">Instagram</a>
+                    <div class="px-4 py-3 text-[10px] text-gray-500 border-b border-white/5 uppercase tracking-widest">Version 1.0.4</div>
+                    <button onclick="logout()" class="w-full text-left px-4 py-3 text-red-500 hover:bg-red-500/10 text-sm font-bold">Logout</button>
                 </div>
             </div>
         </nav>
 
         <header class="pt-44 pb-20 text-center px-6">
-            <h2 class="text-5xl md:text-7xl font-sync font-bold mb-6 leading-tight uppercase">Luxury <br><span class="gold-gradient">Bundles</span></h2>
+            <h2 class="text-5xl md:text-7xl font-sync font-bold mb-6 leading-tight uppercase">Luxury <span class="gold-gradient">Bundles</span></h2>
             <div class="w-16 h-1 gold-bg mx-auto mb-8 rounded-full"></div>
-            <p class="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed font-light">Exclusive digital assets for elite creators.</p>
+            <p class="text-gray-500 text-xs tracking-widest uppercase italic">Exclusive Assets for Professionals</p>
         </header>
 
-        <section id="product-list" class="container mx-auto px-6 pb-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            <!-- Dynamic Products -->
-        </section>
+        <section id="product-list" class="container mx-auto px-6 pb-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"></section>
 
-        <!-- Admin Dashboard -->
+        <!-- ADMIN PANEL OVERLAY -->
         <div id="admin-panel" class="hidden fixed inset-0 z-[100] bg-black/98 p-6 overflow-y-auto">
             <div class="max-w-5xl mx-auto py-10">
-                <div class="flex justify-between items-center mb-16">
-                    <h3 class="text-2xl font-sync gold-gradient uppercase">Control Center</h3>
+                <div class="flex justify-between items-center mb-10">
+                    <h3 class="text-2xl font-sync gold-gradient uppercase tracking-tighter">Inventory Control</h3>
                     <button onclick="closeAdmin()" class="text-white text-5xl">&times;</button>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                    <div class="glass-card p-10 rounded-[2.5rem]">
-                        <h4 class="text-xs font-bold mb-8 text-gold uppercase tracking-[0.3em]">New Listing</h4>
-                        <div class="space-y-5">
-                            <input type="text" id="p-title" placeholder="Bundle Name" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none text-sm">
-                            <textarea id="p-desc" placeholder="Details & Content" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none h-40 text-sm"></textarea>
-                            <input type="number" id="p-price" placeholder="Price (INR)" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none text-sm">
-                            <input type="text" id="p-image" placeholder="Cover Image URL (Direct Link)" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none text-sm">
-                            <input type="text" id="p-link" placeholder="Cosmofeed Link" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none text-sm">
-                            <button onclick="addProduct()" class="w-full gold-bg text-black font-bold py-5 rounded-2xl uppercase tracking-widest shadow-2xl hover:brightness-110">Publish</button>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="glass-card p-8 rounded-[2rem]">
+                        <h4 id="form-title" class="text-xs font-bold mb-6 text-gold uppercase tracking-[0.3em]">Add New Bundle</h4>
+                        <div class="space-y-4">
+                            <input type="hidden" id="editing-id">
+                            <input type="text" id="p-title" placeholder="Bundle Name" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <textarea id="p-desc" placeholder="Details & Description" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none h-32 focus:border-gold"></textarea>
+                            <input type="number" id="p-price" placeholder="Price (INR)" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <input type="text" id="p-image" placeholder="Image DIRECT Link (Ending in .jpg/.png)" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <input type="text" id="p-link" placeholder="Cosmofeed Payment Link" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <button id="submit-btn" onclick="saveProduct()" class="w-full gold-bg text-black font-bold py-4 rounded-xl uppercase tracking-widest shadow-xl">Publish to Store</button>
+                            <button id="cancel-edit" onclick="resetForm()" class="hidden w-full text-gray-500 text-xs uppercase tracking-widest mt-2">Cancel Edit</button>
                         </div>
                     </div>
                     <div>
-                        <h4 class="text-xs font-bold mb-8 uppercase text-gray-500 tracking-widest italic">Live Inventory</h4>
-                        <div id="admin-product-list" class="space-y-4"></div>
+                        <h4 class="text-xs font-bold mb-6 uppercase text-gray-500 tracking-widest italic">Live Inventory</h4>
+                        <div id="admin-product-list" class="space-y-3"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <footer class="border-t border-white/5 py-16 text-center">
-            <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-12 h-12 mx-auto mb-6 rounded-full opacity-40">
-            <a href="https://instagram.com/xenonmart9" target="_blank" class="text-gray-500 hover:text-gold transition-all font-bold text-xs tracking-widest">@XENONMART9</a>
-            <p class="text-[8px] text-gray-700 font-sync tracking-[0.5em] uppercase mt-10">© 2024 XENON MART • Luxury Digital Store</p>
+        <footer class="py-16 text-center border-t border-white/5">
+            <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-12 h-12 mx-auto mb-4 rounded-full opacity-40">
+            <p class="text-gray-500 text-[10px] tracking-widest mb-4">Instagram: @xenonmart9</p>
+            <p class="text-[8px] text-gray-700 font-sync tracking-[0.5em] uppercase">© 2024 XENON MART</p>
         </footer>
     </div>
 
@@ -137,27 +120,10 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-
-        // Ensure Login Persistence
         auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-        function toggleMenu() {
-            document.getElementById('dropdown-menu').classList.toggle('show');
-        }
-
-        async function login() {
-            try {
-                document.getElementById('loading-txt').classList.remove('hidden');
-                document.getElementById('login-btn').disabled = true;
-                const provider = new firebase.auth.GoogleAuthProvider();
-                await auth.signInWithPopup(provider);
-            } catch (error) {
-                alert("Login Error. Check if popup is blocked.");
-                document.getElementById('loading-txt').classList.add('hidden');
-                document.getElementById('login-btn').disabled = false;
-            }
-        }
-
+        function toggleMenu() { document.getElementById('dropdown-menu').classList.toggle('show'); }
+        async function login() { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
         function logout() { auth.signOut().then(() => location.reload()); }
 
         auth.onAuthStateChanged(user => {
@@ -171,27 +137,36 @@
         });
 
         function openAdmin() { document.getElementById('admin-panel').classList.remove('hidden'); loadAdminItems(); }
-        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
+        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); resetForm(); }
 
-        async function addProduct() {
-            const title = document.getElementById('p-title').value;
-            const desc = document.getElementById('p-desc').value;
-            const price = document.getElementById('p-price').value;
-            const image = document.getElementById('p-image').value;
-            const link = document.getElementById('p-link').value;
+        async function saveProduct() {
+            const id = document.getElementById('editing-id').value;
+            const data = {
+                title: document.getElementById('p-title').value,
+                desc: document.getElementById('p-desc').value,
+                price: document.getElementById('p-price').value,
+                image: document.getElementById('p-image').value,
+                link: document.getElementById('p-link').value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
 
-            if(!title || !price || !link) return alert("Required fields missing!");
+            if(!data.title || !data.price || !data.link) return alert("Fill required fields!");
 
-            await db.collection('bundles').add({
-                title, desc, price, image, link,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            alert("Success!");
-            location.reload();
+            if(id) {
+                await db.collection('bundles').doc(id).update(data);
+                alert("Updated!");
+            } else {
+                data.createdAt = data.updatedAt;
+                await db.collection('bundles').add(data);
+                alert("Published!");
+            }
+            resetForm();
+            loadAdminItems();
+            loadProducts();
         }
 
         async function loadProducts() {
-            const snap = await db.collection('bundles').orderBy('createdAt', 'desc').get();
+            const snap = await db.collection('bundles').orderBy('updatedAt', 'desc').get();
             const list = document.getElementById('product-list');
             list.innerHTML = '';
             snap.forEach(doc => {
@@ -199,18 +174,15 @@
                 list.innerHTML += `
                     <div class="glass-card rounded-[3rem] overflow-hidden group">
                         <div class="relative h-72 overflow-hidden">
-                            <img src="${p.image || 'https://via.placeholder.com/600x400'}" class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110">
-                            <div class="absolute bottom-6 left-6">
-                                <span class="bg-gold text-black px-4 py-1 rounded-full font-bold text-[10px] font-sync shadow-2xl">INR ${p.price}</span>
-                            </div>
+                            <img src="${p.image}" onerror="this.src='https://via.placeholder.com/600x400/000000/BF953F?text=XENON+MART'" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
+                            <div class="absolute bottom-6 left-6 bg-gold text-black px-4 py-1 rounded-full font-bold text-[10px] font-sync shadow-2xl tracking-tighter italic">INR ${p.price}</div>
                         </div>
                         <div class="p-8">
-                            <h4 class="text-lg font-sync font-bold mb-3 text-white tracking-tighter uppercase">${p.title}</h4>
-                            <p class="text-gray-500 text-[10px] mb-8 leading-relaxed line-clamp-2 uppercase tracking-widest font-light">${p.desc}</p>
-                            <a href="${p.link}" target="_blank" class="block w-full text-center border border-gold/30 text-gold py-4 rounded-2xl font-bold hover:bg-gold hover:text-black transition-all uppercase tracking-[0.3em] text-[9px]">Aquire Asset</a>
+                            <h4 class="text-lg font-sync font-bold mb-4 uppercase text-white">${p.title}</h4>
+                            <p class="text-gray-500 text-[9px] mb-8 leading-relaxed uppercase tracking-widest line-clamp-3">${p.desc}</p>
+                            <a href="${p.link}" target="_blank" class="block w-full text-center border border-gold/30 text-gold py-4 rounded-2xl font-bold hover:bg-gold hover:text-black transition-all uppercase tracking-[0.3em] text-[10px]">Buy Now</a>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
@@ -219,25 +191,44 @@
             const list = document.getElementById('admin-product-list');
             list.innerHTML = '';
             snap.forEach(doc => {
+                const p = doc.data();
                 list.innerHTML += `
                     <div class="bg-white/5 p-4 rounded-2xl flex justify-between items-center border border-white/5">
-                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${doc.data().title}</span>
-                        <button onclick="deleteP('${doc.id}')" class="text-red-500 text-[9px] font-bold border border-red-500/20 px-3 py-1.5 rounded-xl hover:bg-red-500 hover:text-white transition-all">DELETE</button>
-                    </div>
-                `;
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${p.title}</span>
+                        <div class="flex gap-2">
+                            <button onclick="editForm('${doc.id}', '${p.title}', \`${p.desc}\`, '${p.price}', '${p.image}', '${p.link}')" class="text-gold text-[9px] font-bold border border-gold/20 px-3 py-1 rounded-lg">EDIT</button>
+                            <button onclick="deleteP('${doc.id}')" class="text-red-500 text-[9px] font-bold border border-red-500/20 px-3 py-1 rounded-lg">DEL</button>
+                        </div>
+                    </div>`;
             });
         }
 
-        async function deleteP(id) {
-            if(confirm("Delete item?")) { await db.collection('bundles').doc(id).delete(); loadAdminItems(); loadProducts(); }
+        function editForm(id, title, desc, price, image, link) {
+            document.getElementById('editing-id').value = id;
+            document.getElementById('p-title').value = title;
+            document.getElementById('p-desc').value = desc;
+            document.getElementById('p-price').value = price;
+            document.getElementById('p-image').value = image;
+            document.getElementById('p-link').value = link;
+            document.getElementById('form-title').innerText = "Edit Inventory";
+            document.getElementById('submit-btn').innerText = "Update Listing";
+            document.getElementById('cancel-edit').classList.remove('hidden');
         }
 
-        // Close menu on click outside
-        window.onclick = function(event) {
-            if (!event.target.closest('.relative')) {
-                document.getElementById('dropdown-menu').classList.remove('show');
-            }
+        function resetForm() {
+            document.getElementById('editing-id').value = "";
+            document.getElementById('p-title').value = "";
+            document.getElementById('p-desc').value = "";
+            document.getElementById('p-price').value = "";
+            document.getElementById('p-image').value = "";
+            document.getElementById('p-link').value = "";
+            document.getElementById('form-title').innerText = "Add New Bundle";
+            document.getElementById('submit-btn').innerText = "Publish to Store";
+            document.getElementById('cancel-edit').classList.add('hidden');
         }
+
+        async function deleteP(id) { if(confirm("Destroy this inventory item?")) { await db.collection('bundles').doc(id).delete(); loadAdminItems(); loadProducts(); } }
+        window.onclick = function(event) { if (!event.target.closest('.relative')) { document.getElementById('dropdown-menu').classList.remove('show'); } }
     </script>
 </body>
 </html>
