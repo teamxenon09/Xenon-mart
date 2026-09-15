@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XENON MART | Premium Digital Assets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --gold: #D4AF37; --silver: #C0C0C0; --bg-dark: #050505; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: white; overflow-x: hidden; }
+        .font-sync { font-family: 'Syncopate', sans-serif; }
+        .gold-gradient { background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gold-bg { background: linear-gradient(45deg, #BF953F, #AA771C); }
+        .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(191, 149, 63, 0.15); transition: 0.5s; }
+        .glass-card:hover { border-color: #D4AF37; transform: translateY(-5px); box-shadow: 0 15px 35px rgba(191, 149, 63, 0.1); }
+        .logo-glow { border-radius: 50%; box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); border: 2px solid #BF953F; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LUXURY LOGIN PAGE -->
+    <div id="login-page" class="h-screen flex flex-col items-center justify-center text-center p-6 bg-black">
+        <div class="max-w-md w-full p-10 rounded-[3rem] glass-card shadow-2xl">
+            <!-- Logo Fixed -->
+            <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" alt="XENON MART" class="w-44 h-44 mx-auto mb-8 logo-glow object-cover">
+            
+            <h1 class="text-3xl font-sync font-bold mb-2 gold-gradient">XENON MART</h1>
+            <p class="text-gray-500 tracking-[0.4em] text-[10px] mb-10 uppercase">Shop Smart • Live Better</p>
+            
+            <button id="google-login-btn" onclick="login()" class="w-full gold-bg text-black font-bold py-4 rounded-2xl shadow-xl hover:brightness-110 transition-all flex items-center justify-center gap-3">
+                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-5">
+                SIGN IN WITH GOOGLE
+            </button>
+            <p id="error-msg" class="text-red-500 text-xs mt-4 hidden">Error connecting to Firebase. Check Console.</p>
+        </div>
+    </div>
+
+    <!-- 2. MAIN WEBSITE -->
+    <div id="main-content" class="hidden">
+        <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-black/90 backdrop-blur-lg border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-10 h-10 rounded-full object-cover border border-gold">
+                <span class="font-sync font-bold gold-gradient text-lg">XENON MART</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button id="admin-btn" onclick="openAdmin()" class="hidden text-[10px] border border-gold text-gold px-4 py-1.5 rounded-full hover:bg-gold hover:text-black transition-all font-bold">ADMIN PANEL</button>
+                <img id="user-img" src="" class="w-9 h-9 rounded-full border border-gold/30">
+                <button onclick="logout()" class="text-gray-500 hover:text-white text-xs font-bold">EXIT</button>
+            </div>
+        </nav>
+
+        <header class="pt-40 pb-20 text-center px-6">
+            <h2 class="text-5xl md:text-7xl font-sync font-bold mb-6 uppercase leading-tight">Elite <span class="gold-gradient italic">Bundles</span></h2>
+            <div class="w-20 h-1 gold-bg mx-auto mb-8 rounded-full"></div>
+            <p class="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">Luxury digital assets, templates, and premium packs for the top 1% creators.</p>
+        </header>
+
+        <section id="user-panel" class="container mx-auto px-6 pb-32">
+            <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Products dynamically load here -->
+            </div>
+        </section>
+
+        <!-- Admin Overlay -->
+        <div id="admin-panel" class="hidden fixed inset-0 z-[100] bg-black/98 backdrop-blur-2xl p-6 overflow-y-auto">
+            <div class="max-w-5xl mx-auto py-10">
+                <div class="flex justify-between items-center mb-16">
+                    <h3 class="text-3xl font-sync gold-gradient uppercase">Control Center</h3>
+                    <button onclick="closeAdmin()" class="text-white text-4xl hover:text-gold">&times;</button>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <div class="glass-card p-10 rounded-[2.5rem]">
+                        <h4 class="text-sm font-bold mb-8 text-gold uppercase tracking-widest">New Listing</h4>
+                        <div class="space-y-5">
+                            <input type="text" id="p-title" placeholder="Bundle Name" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none">
+                            <textarea id="p-desc" placeholder="Bundle Details (Price, Content, Terms)" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none h-40"></textarea>
+                            <input type="number" id="p-price" placeholder="Price (INR)" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none">
+                            <input type="text" id="p-image" placeholder="Image URL (Thumbnail)" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none">
+                            <input type="text" id="p-link" placeholder="Cosmofeed Payment Link" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-gold outline-none">
+                            <button onclick="addProduct()" class="w-full gold-bg text-black font-bold py-5 rounded-2xl uppercase tracking-widest shadow-2xl hover:brightness-110 transition-all">Publish Bundle</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold mb-8 uppercase tracking-widest text-gray-400">Inventory</h4>
+                        <div id="admin-product-list" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="border-t border-white/5 py-16 text-center">
+            <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-16 h-16 mx-auto mb-6 rounded-full opacity-60">
+            <div class="flex justify-center gap-8 mb-10">
+                <a href="https://instagram.com/xenonmart9" target="_blank" class="text-gray-500 hover:text-gold transition-all flex items-center gap-2 font-bold text-sm">
+                    INSTAGRAM @XENONMART9
+                </a>
+            </div>
+            <p class="text-[9px] text-gray-600 font-sync tracking-[0.6em] uppercase">© 2024 XENON MART • Engineered by Professionals</p>
+        </footer>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDPMYrUQ9FxVY9wzl6eu_fKM15l0u4GWFw",
+            authDomain: "xenon-mart.firebaseapp.com",
+            projectId: "xenon-mart",
+            storageBucket: "xenon-mart.firebasestorage.app",
+            messagingSenderId: "969095850772",
+            appId: "1:969095850772:web:cc1d020a0534edc600f001",
+            measurementId: "G-120GGYSLL0"
+        };
+
+        const adminEmail = "zidanraj65@gmail.com"; 
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // 1. IMPROVED LOGIN LOGIC
+        async function login() {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                await auth.signInWithPopup(provider);
+            } catch (error) {
+                console.error("Login Error:", error);
+                document.getElementById('error-msg').innerText = "Error: " + error.message;
+                document.getElementById('error-msg').classList.remove('hidden');
+                alert("Login Failed! Make sure you added your domain to Firebase 'Authorized Domains'.");
+            }
+        }
+
+        function logout() { auth.signOut().then(() => location.reload()); }
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden');
+                document.getElementById('user-img').src = user.photoURL;
+                if(user.email === adminEmail) document.getElementById('admin-btn').classList.remove('hidden');
+                loadProducts();
+            }
+        });
+
+        // 2. NAVIGATION
+        function openAdmin() { document.getElementById('admin-panel').classList.remove('hidden'); loadAdminItems(); }
+        function closeAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
+
+        // 3. DATABASE
+        async function addProduct() {
+            const title = document.getElementById('p-title').value;
+            const desc = document.getElementById('p-desc').value;
+            const price = document.getElementById('p-price').value;
+            const image = document.getElementById('p-image').value;
+            const link = document.getElementById('p-link').value;
+
+            if(!title || !price || !link) return alert("Fill required fields!");
+
+            await db.collection('bundles').add({
+                title, desc, price, image, link,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            alert("Luxury Bundle Published!");
+            location.reload();
+        }
+
+        async function loadProducts() {
+            const snap = await db.collection('bundles').orderBy('createdAt', 'desc').get();
+            const list = document.getElementById('product-list');
+            list.innerHTML = '';
+            snap.forEach(doc => {
+                const p = doc.data();
+                list.innerHTML += `
+                    <div class="glass-card rounded-[3rem] overflow-hidden group">
+                        <div class="relative h-80 overflow-hidden">
+                            <img src="${p.image || 'https://via.placeholder.com/600x400'}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                            <div class="absolute bottom-8 left-8">
+                                <span class="bg-gold text-black px-5 py-1.5 rounded-full font-bold text-xs font-sync shadow-2xl italic">INR ${p.price}</span>
+                            </div>
+                        </div>
+                        <div class="p-10">
+                            <h4 class="text-xl font-sync font-bold mb-4 text-white tracking-tighter">${p.title}</h4>
+                            <p class="text-gray-500 text-xs mb-10 leading-relaxed line-clamp-2">${p.desc}</p>
+                            <a href="${p.link}" target="_blank" class="block w-full text-center border-2 border-gold/20 text-gold py-4 rounded-2xl font-bold hover:bg-gold hover:text-black transition-all uppercase tracking-[0.2em] text-[10px]">Aquire Bundle</a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function loadAdminItems() {
+            const snap = await db.collection('bundles').get();
+            const list = document.getElementById('admin-product-list');
+            list.innerHTML = '';
+            snap.forEach(doc => {
+                list.innerHTML += `
+                    <div class="bg-white/5 p-5 rounded-2xl flex justify-between items-center border border-white/5">
+                        <span class="text-sm font-semibold text-gray-300 uppercase text-[10px] tracking-widest">${doc.data().title}</span>
+                        <button onclick="deleteP('${doc.id}')" class="text-red-500 text-[10px] font-bold border border-red-500/20 px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white transition-all">REMOVE</button>
+                    </div>
+                `;
+            });
+        }
+
+        async function deleteP(id) {
+            if(confirm("Destroy this inventory item?")) { await db.collection('bundles').doc(id).delete(); loadAdminItems(); loadProducts(); }
+        }
+    </script>
+</body>
+</html>
