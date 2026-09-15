@@ -16,12 +16,17 @@
         .font-sync { font-family: 'Syncopate', sans-serif; }
         .gold-gradient { background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .gold-bg { background: linear-gradient(45deg, #BF953F, #AA771C); }
-        .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(191, 149, 63, 0.2); transition: 0.5s; }
-        .logo-glow { border-radius: 50%; box-shadow: 0 0 20px rgba(191, 149, 63, 0.3); border: 1px solid #BF953F; }
+        .glass-card { background: #0a0a0a; border: 1px solid rgba(191, 149, 63, 0.3); transition: 0.5s; }
+        .logo-glow { border-radius: 50%; box-shadow: 0 0 20px rgba(191, 149, 63, 0.3); border: 2px solid #BF953F; }
         
-        .dropdown-content { display: none; position: absolute; right: 0; top: 60px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); min-width: 200px; border: 1px solid rgba(191, 149, 63, 0.3); border-radius: 15px; z-index: 100; overflow: hidden; }
-        .dropdown-content.show { display: block; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Fixed Solid Dropdown */
+        .dropdown-content { display: none; position: absolute; right: 0; top: 60px; background: #000000; min-width: 200px; border: 2px solid #BF953F; border-radius: 15px; z-index: 1000 !important; box-shadow: 0 10px 30px rgba(0,0,0,1); }
+        .dropdown-content.show { display: block; animation: fadeIn 0.2s ease; }
+        
+        /* Solid Admin Panel */
+        #admin-panel { background-color: #000000 !important; z-index: 9999 !important; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -40,7 +45,7 @@
 
     <!-- MAIN WEBSITE -->
     <div id="main-content" class="hidden">
-        <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-black/90 backdrop-blur-lg border-b border-white/5">
+        <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-black border-b border-gold/20 shadow-2xl">
             <div class="flex items-center gap-3">
                 <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-9 h-9 rounded-full object-cover border border-gold">
                 <span class="font-sync font-bold gold-gradient text-lg">XENON MART</span>
@@ -54,38 +59,37 @@
                 </button>
 
                 <div id="dropdown-menu" class="dropdown-content">
-                    <a href="https://instagram.com/xenonmart9" target="_blank" class="block px-4 py-3 hover:bg-white/5 text-sm border-b border-white/5 font-semibold text-gold">Instagram</a>
-                    <div class="px-4 py-3 text-[10px] text-gray-500 border-b border-white/5 uppercase tracking-widest">Version 1.0.4</div>
+                    <a href="https://instagram.com/xenonmart9" target="_blank" class="block px-4 py-3 hover:bg-gold/20 text-sm border-b border-gold/20 font-semibold text-gold">Instagram</a>
+                    <div class="px-4 py-3 text-[10px] text-gray-500 border-b border-gold/20 uppercase tracking-widest">Version 1.0.5</div>
                     <button onclick="logout()" class="w-full text-left px-4 py-3 text-red-500 hover:bg-red-500/10 text-sm font-bold">Logout</button>
                 </div>
             </div>
         </nav>
 
         <header class="pt-44 pb-20 text-center px-6">
-            <h2 class="text-5xl md:text-7xl font-sync font-bold mb-6 leading-tight uppercase">Luxury <span class="gold-gradient">Bundles</span></h2>
+            <h2 class="text-5xl md:text-7xl font-sync font-bold mb-6 leading-tight uppercase tracking-tighter">Luxury <span class="gold-gradient">Bundles</span></h2>
             <div class="w-16 h-1 gold-bg mx-auto mb-8 rounded-full"></div>
-            <p class="text-gray-500 text-xs tracking-widest uppercase italic">Exclusive Assets for Professionals</p>
         </header>
 
         <section id="product-list" class="container mx-auto px-6 pb-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"></section>
 
-        <!-- ADMIN PANEL OVERLAY -->
-        <div id="admin-panel" class="hidden fixed inset-0 z-[100] bg-black/98 p-6 overflow-y-auto">
+        <!-- SOLID ADMIN PANEL OVERLAY -->
+        <div id="admin-panel" class="hidden fixed inset-0 bg-black p-6 overflow-y-auto">
             <div class="max-w-5xl mx-auto py-10">
-                <div class="flex justify-between items-center mb-10">
+                <div class="flex justify-between items-center mb-10 border-b border-gold/30 pb-6">
                     <h3 class="text-2xl font-sync gold-gradient uppercase tracking-tighter">Inventory Control</h3>
                     <button onclick="closeAdmin()" class="text-white text-5xl">&times;</button>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <div class="glass-card p-8 rounded-[2rem]">
+                    <div class="bg-[#0a0a0a] border border-gold/30 p-8 rounded-[2rem] shadow-2xl">
                         <h4 id="form-title" class="text-xs font-bold mb-6 text-gold uppercase tracking-[0.3em]">Add New Bundle</h4>
                         <div class="space-y-4">
                             <input type="hidden" id="editing-id">
-                            <input type="text" id="p-title" placeholder="Bundle Name" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
-                            <textarea id="p-desc" placeholder="Details & Description" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none h-32 focus:border-gold"></textarea>
-                            <input type="number" id="p-price" placeholder="Price (INR)" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
-                            <input type="text" id="p-image" placeholder="Image DIRECT Link (Ending in .jpg/.png)" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
-                            <input type="text" id="p-link" placeholder="Cosmofeed Payment Link" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <input type="text" id="p-title" placeholder="Bundle Name" class="w-full bg-black border border-white/20 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <textarea id="p-desc" placeholder="Details & Description" class="w-full bg-black border border-white/20 p-3 rounded-xl text-sm outline-none h-32 focus:border-gold"></textarea>
+                            <input type="number" id="p-price" placeholder="Price (INR)" class="w-full bg-black border border-white/20 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <input type="text" id="p-image" placeholder="Image DIRECT Link (.jpg/.png)" class="w-full bg-black border border-white/20 p-3 rounded-xl text-sm outline-none focus:border-gold">
+                            <input type="text" id="p-link" placeholder="Cosmofeed Payment Link" class="w-full bg-black border border-white/20 p-3 rounded-xl text-sm outline-none focus:border-gold">
                             <button id="submit-btn" onclick="saveProduct()" class="w-full gold-bg text-black font-bold py-4 rounded-xl uppercase tracking-widest shadow-xl">Publish to Store</button>
                             <button id="cancel-edit" onclick="resetForm()" class="hidden w-full text-gray-500 text-xs uppercase tracking-widest mt-2">Cancel Edit</button>
                         </div>
@@ -98,7 +102,7 @@
             </div>
         </div>
 
-        <footer class="py-16 text-center border-t border-white/5">
+        <footer class="py-16 text-center border-t border-white/5 bg-black">
             <img src="https://i.ibb.co/845TLnf5/xenon-mart-logo.png" class="w-12 h-12 mx-auto mb-4 rounded-full opacity-40">
             <p class="text-gray-500 text-[10px] tracking-widest mb-4">Instagram: @xenonmart9</p>
             <p class="text-[8px] text-gray-700 font-sync tracking-[0.5em] uppercase">© 2024 XENON MART</p>
@@ -120,7 +124,6 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
         function toggleMenu() { document.getElementById('dropdown-menu').classList.toggle('show'); }
         async function login() { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
@@ -149,20 +152,10 @@
                 link: document.getElementById('p-link').value,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
-
             if(!data.title || !data.price || !data.link) return alert("Fill required fields!");
-
-            if(id) {
-                await db.collection('bundles').doc(id).update(data);
-                alert("Updated!");
-            } else {
-                data.createdAt = data.updatedAt;
-                await db.collection('bundles').add(data);
-                alert("Published!");
-            }
-            resetForm();
-            loadAdminItems();
-            loadProducts();
+            if(id) { await db.collection('bundles').doc(id).update(data); } 
+            else { data.createdAt = data.updatedAt; await db.collection('bundles').add(data); }
+            resetForm(); loadAdminItems(); loadProducts();
         }
 
         async function loadProducts() {
@@ -172,10 +165,10 @@
             snap.forEach(doc => {
                 const p = doc.data();
                 list.innerHTML += `
-                    <div class="glass-card rounded-[3rem] overflow-hidden group">
-                        <div class="relative h-72 overflow-hidden">
-                            <img src="${p.image}" onerror="this.src='https://via.placeholder.com/600x400/000000/BF953F?text=XENON+MART'" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
-                            <div class="absolute bottom-6 left-6 bg-gold text-black px-4 py-1 rounded-full font-bold text-[10px] font-sync shadow-2xl tracking-tighter italic">INR ${p.price}</div>
+                    <div class="bg-[#0a0a0a] border border-gold/20 rounded-[3rem] overflow-hidden">
+                        <div class="relative h-72">
+                            <img src="${p.image}" onerror="this.src='https://via.placeholder.com/600x400/000000/BF953F?text=XENON+MART'" class="w-full h-full object-cover">
+                            <div class="absolute bottom-6 left-6 bg-gold text-black px-4 py-1 rounded-full font-bold text-[10px] font-sync">INR ${p.price}</div>
                         </div>
                         <div class="p-8">
                             <h4 class="text-lg font-sync font-bold mb-4 uppercase text-white">${p.title}</h4>
@@ -193,11 +186,11 @@
             snap.forEach(doc => {
                 const p = doc.data();
                 list.innerHTML += `
-                    <div class="bg-white/5 p-4 rounded-2xl flex justify-between items-center border border-white/5">
+                    <div class="bg-[#111] p-4 rounded-2xl flex justify-between items-center border border-white/10">
                         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${p.title}</span>
                         <div class="flex gap-2">
-                            <button onclick="editForm('${doc.id}', '${p.title}', \`${p.desc}\`, '${p.price}', '${p.image}', '${p.link}')" class="text-gold text-[9px] font-bold border border-gold/20 px-3 py-1 rounded-lg">EDIT</button>
-                            <button onclick="deleteP('${doc.id}')" class="text-red-500 text-[9px] font-bold border border-red-500/20 px-3 py-1 rounded-lg">DEL</button>
+                            <button onclick="editForm('${doc.id}', '${p.title}', \`${p.desc}\`, '${p.price}', '${p.image}', '${p.link}')" class="text-gold text-[9px] font-bold border border-gold/40 px-3 py-1 rounded-lg bg-black">EDIT</button>
+                            <button onclick="deleteP('${doc.id}')" class="text-red-500 text-[9px] font-bold border border-red-500/40 px-3 py-1 rounded-lg bg-black">DEL</button>
                         </div>
                     </div>`;
             });
@@ -227,7 +220,7 @@
             document.getElementById('cancel-edit').classList.add('hidden');
         }
 
-        async function deleteP(id) { if(confirm("Destroy this inventory item?")) { await db.collection('bundles').doc(id).delete(); loadAdminItems(); loadProducts(); } }
+        async function deleteP(id) { if(confirm("Delete item?")) { await db.collection('bundles').doc(id).delete(); loadAdminItems(); loadProducts(); } }
         window.onclick = function(event) { if (!event.target.closest('.relative')) { document.getElementById('dropdown-menu').classList.remove('show'); } }
     </script>
 </body>
